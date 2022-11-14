@@ -8,13 +8,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 public class WikimediaChangesHandler implements EventHandler {
 
 
-    @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
 
     private String topic;
 
-    public WikimediaChangesHandler(String topic){
-
+    public WikimediaChangesHandler(KafkaTemplate<String,String> kafkaTemplate, String topic){
+        this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;
     }
 
@@ -31,6 +30,7 @@ public class WikimediaChangesHandler implements EventHandler {
     @Override
     public void onMessage(String s, MessageEvent messageEvent) throws Exception {
 
+        System.out.println(messageEvent.getData());
         kafkaTemplate.send(topic,messageEvent.getData());
     }
 

@@ -7,7 +7,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
-import java.sql.Time;
 import java.util.concurrent.TimeUnit;
 
 
@@ -23,7 +22,7 @@ public class KafkaProducer {
         String topic = "wikimedia_topic";
 
         //create event source
-        EventHandler eventHandler = new WikimediaChangesHandler(topic);
+        EventHandler eventHandler = new WikimediaChangesHandler(kafkaTemplate,topic);
         String url = "https://stream.wikimedia.org/v2/stream/recentchange";
         EventSource.Builder builder = new EventSource.Builder(eventHandler,URI.create(url));
         EventSource eventSource = builder.build();
